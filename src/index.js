@@ -1,4 +1,4 @@
-import { intro, outro, text, select, confirm,multiselect } from '@clack/prompts'
+import { intro, outro, text, select, confirm, multiselect, isCancel } from '@clack/prompts'
 import colors from 'picocolors'
 import { trytm } from '@bdsqqq/try'
 import { COMMIT_TYPES } from './commit-types.js'
@@ -27,6 +27,11 @@ if (stagedFiles.length === 0 && changedFiles.length > 0) {
     }))
   })
 
+  if (isCancel(files)) {
+    outro(colors.yellow('Has cancelado el proceso'))
+    process.exit(0)
+  }
+
   await gitAdd({ files })
 }
 
@@ -37,6 +42,11 @@ const commitType = await select({
     label: `${value.emoji} ${key.padEnd(12, ' ')} · ${value.description}`
   }))
 })
+
+if (isCancel(commitType)) {
+  outro(colors.yellow('Has cancelado el proceso'))
+  process.exit(0)
+}
 
 const commitMessage = await text({
   message: colors.cyan('Introduce el mensaje del commit:'),
