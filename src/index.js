@@ -61,6 +61,11 @@ const commitMessage = await text({
   }
 })
 
+if (isCancel(commitMessage)) {
+  outro(colors.yellow('Has cancelado el proceso'))
+  process.exit(0)
+}
+
 const { emoji, release } = COMMIT_TYPES[commitType]
 
 let breakingChange = false
@@ -72,6 +77,11 @@ if (release) {
   })
 }
 
+if (isCancel(breakingChange)) {
+  outro(colors.yellow('Has cancelado el proceso'))
+  process.exit(0)
+}
+
 let commit = `${emoji} ${commitType}: ${commitMessage}`
 commit = breakingChange ? `${commit} [breaking change]` : commit
 
@@ -80,6 +90,11 @@ const shouldContinue = await confirm({
   message: `${colors.cyan('¿Quieres crear el commit con el siguiente mensaje?')}
   ${colors.green(colors.bold(commit))}`
 })
+
+if (isCancel(shouldContinue)) {
+  outro(colors.yellow('Has cancelado el proceso'))
+  process.exit(0)
+}
 
 if (!shouldContinue) {
   outro(colors.yellow('No se ha creado el commit'))
