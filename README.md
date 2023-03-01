@@ -6,7 +6,7 @@
 - [x] Comprobar si está en un repositorio de Git
 - [x] Pedirle al usuario si es Breaking Change
 - [x] Confirmar con el usuario el commit
-- [ ] Crear el commit
+- [x] Crear el commit
 - [ ] Crear binario
 - [ ] Publicar el paquete en npm
 
